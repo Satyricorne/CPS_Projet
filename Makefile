@@ -1,5 +1,5 @@
 SRC = Application/src/
 
-main:
+main: $(SRC)lecture_fichier.c
 	gcc -o main $(SRC)lecture_fichier.c
 
