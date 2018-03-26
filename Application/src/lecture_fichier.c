@@ -3,18 +3,25 @@
 
 int main(int argc, char const *argv[])
 {
-	FILE * image = fopen("../Exemples/img1.ppm", "r");
+	int convert = 0;
+	FILE * image = fopen("./Exemples/poivron.ppm", "r");
 	if (argc == 0)
 	{
 		printf("Aucun fichier selectionné\n");
-	} else {
+	} else if (argc == 1) {
+		convert = 1;
+	} else if(argc == 2){
 		image = fopen(argv[1], "r");
+		convert = 2;
 	}
 
 	printf("fichier extrait\n");
 
-	int nb;
-	fscanf(image, "%d", &nb);
-	printf("%d\n", nb);
+	char carac;
+	int num;
+	fscanf(image, "%c%d", &carac, &num);
+	printf("%c%d\n", carac, num);
+	char carac2 = num;
+	printf("%c\n", carac2);
 	return 0;
 }
