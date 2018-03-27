@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "../headers/main.h"
 
-int main(int argc, char const *argv[])
+int lire(int argc, char const *argv[])
 {
 	int convert = 0;
 	FILE * image = fopen("./Exemples/poivron.ppm", "r");
@@ -17,11 +18,10 @@ int main(int argc, char const *argv[])
 
 	printf("fichier extrait\n");
 
+	Image img;
 	char carac;
-	int num;
-	fscanf(image, "%c%d", &carac, &num);
-	printf("%c%d\n", carac, num);
-	char carac2 = num;
-	printf("%c\n", carac2);
+	fscanf(image, "%c%d\n", &carac, &(img->type));
+	printf("%d\n", img->type);
+	
 	return 0;
 }

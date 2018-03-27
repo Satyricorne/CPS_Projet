@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "../headers/lecture_fichier.h"
 
 
 int int main(int argc, char const *argv[]) {
