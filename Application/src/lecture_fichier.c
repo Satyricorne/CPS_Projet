@@ -22,6 +22,6 @@ int lire(int argc, char const *argv[])
 	char carac;
 	fscanf(image, "%c%d\n", &carac, &(img->type));
 	printf("%d\n", img->type);
-	
+
 	return 0;
 }
