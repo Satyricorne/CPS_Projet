@@ -9,10 +9,13 @@ void transform(char * file, char * option){
 	Image img = malloc(sizeof(Image));
 	lire(img, file);
 	Image sortie = malloc(sizeof(Image));
-	if (img->type == P3 && strcmp(option, "-g")){
+	if (img->type == P3 && !strcmp(option, "-g")){
 		sortie = gris(img, 0.299, 0.587, 0.114);
-		ecrire(sortie, file);
+	} else if (img->type == P3 && !strcmp(option, "-b"))
+	{
+		sortie = noir(img, 0.5);
 	}
+	ecrire(sortie, file);
 		
 	
 }

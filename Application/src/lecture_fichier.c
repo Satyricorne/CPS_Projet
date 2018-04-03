@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
+#include <math.h>
+
 #include "../headers/main.h"
 
 char * type_print(Type t){
@@ -40,7 +42,7 @@ void lire(Image img, char * fileName)
 	printf("fichier extrait\n");
 
 	char z;
-	fscanf(FileImage, "%c%d\n", &z, &img->type);
+	fscanf(FileImage, "%c%u\n", &z, &img->type);
 	printf("Type entrée : %s\n", type_print(img->type));
 
 	fscanf(FileImage, "%d %d\n", &img->largeur, &img->hauteur);
@@ -94,9 +96,30 @@ Image gris(Image img, float a, float b, float c){
 			uint64_t rouge = a*((*(img->data+i*img->largeur+j))&maska);
 			uint64_t vert = b*(((*(img->data+i*img->largeur+j))&maskb)>>16);
 			uint64_t bleu = c*(((*(img->data+i*img->largeur+j))&maskc)>>32);
-			*(res->data+i*res->largeur+j) = rouge + vert+ bleu;
+			*(res->data+i*res->largeur+j) = rouge + vert + bleu;
 
-			printf("%lu\n", *(res->data+i*res->largeur+j));
+			//printf("%lu\n", *(res->data+i*res->largeur+j));
+		}
+	}
+	return res;
+}
+
+Image noir(Image img, float alpha){
+	int cond;
+	Image res = malloc(sizeof(Image));
+	res->type = P1;
+	res->largeur = img->largeur;
+	res->hauteur = img->hauteur;
+	res->val_max = img->val_max;
+	uint64_t maska = 0xFFFF, maskb = 0xFFFF0000, maskc = 0xFFFF00000000;
+	res->data = malloc(sizeof(uint64_t)*res->largeur*res->hauteur);
+	for (int i = 0; i < res->hauteur; ++i)
+	{
+		for (int j = 0; j < res->largeur; ++j)
+		{
+			cond = alpha < ( ((*(img->data+i*img->largeur+j))&maska) * (((*(img->data+i*img->largeur+j))&maskb)>>16) * (((*(img->data+i*img->largeur+j))&maskc)>>32) ) / (res->val_max*res->val_max*res->val_max);
+			*(res->data+i*res->largeur+j) = !cond;
+			//printf("c%d l%d res=%lu\n", j, i, *(res->data+i*img->largeur+j));
 		}
 	}
 	return res;
@@ -112,19 +135,19 @@ void ecrire(Image img, char * nomFichier){
 	nomSortie[i] = 'p'; nomSortie[i+2] = 'm';
 	if (img->type == P2)
 		nomSortie[i+1] = 'g'; 
-	else if (img->type == P1) nomSortie[i+1] = 'g';
+	else if (img->type == P1) nomSortie[i+1] = 'b';
 	
 	
 	FILE * fichier_cree = fopen(nomSortie, "w+");
 	fprintf(fichier_cree, "%c%d\n", 'P', img->type);
 	fprintf(fichier_cree, "%d %d\n", img->largeur, img->hauteur);
-	fprintf(fichier_cree, "%d\n", img->val_max);
+	if(img->type == P2)	fprintf(fichier_cree, "%d\n", img->val_max);
 	for (int i = 0; i < img->hauteur; ++i)
 	{
 		for (int j = 0; j < img->largeur; ++j)
 		{
-			printf("%c %lu\n", *(img->data+i*img->largeur+j), *(img->data+i*img->largeur+j));
-			fprintf(fichier_cree, "%c", *(img->data+i*img->largeur+j));
+			//printf("%c %lu\n", *(img->data+i*img->largeur+j), *(img->data+i*img->largeur+j));
+			fprintf(fichier_cree, "%lu ", *(img->data+i*img->largeur+j));
 		}
 		fprintf(fichier_cree, "\n");
 	}
