@@ -1,15 +1,26 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "../headers/main.h"
 #include "../headers/lecture_fichier.h"
 
 
-int main(int argc, char const *argv[]) {
+void transform(char * file, char * option){
+	Image img = malloc(sizeof(Image));
+	lire(img, file);
+	Image sortie = malloc(sizeof(Image));
+	if (img->type == P3 && strcmp(option, "-g")){
+		sortie = gris(img, 0.299, 0.587, 0.114);
+		ecrire(sortie, file);
+	}
+		
+	
+}
+
+int main(int argc, char *argv[]) {
   if(argc != 3){
     printf("Problème d'argument vous devait saisir l'executable, l'option et le fichier à modifier");
   }else{
-    /*if(argv[1] == "-b" || argv[2] == "-b"){
-      //binariser(argv[2]);
-    }if(argv[1] == "-g" || argv[2] == "-g"){
-
-    }*/
+    transform(argv[2], argv[1]);
   }
 }

@@ -1,3 +1,4 @@
+#include <stdint.h>
 /* structure de l'image avec les différents */
 
 enum Type {
@@ -6,12 +7,14 @@ enum Type {
 	P3 = 3
 };
 
+typedef enum Type Type;
+
 typedef struct image {
-  int type;
-  int largeur;
-  int hauteur;
+  Type type;				//Voici la variable type de type Type ;)
+  uint32_t largeur;
+  uint32_t hauteur;
   int val_max;
-  int * data;  
+  uint64_t * data;  
 } image;
 
 typedef image * Image;
