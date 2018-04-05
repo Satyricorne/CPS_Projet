@@ -35,12 +35,8 @@ void afficher_bit(uint64_t a){
 	printf("\n");
 	
 }
-void lire(Image img, char * fileName)
+void lire(Image img, FILE * FileImage)
 {
-	printf("%s\n", fileName);
-	FILE * FileImage = fopen(fileName, "r");
-	printf("fichier extrait\n");
-
 	char z;
 	fscanf(FileImage, "%c%u\n", &z, &img->type);
 	printf("Type entrée : %s\n", type_print(img->type));
