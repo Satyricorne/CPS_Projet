@@ -2,4 +2,4 @@
 
 void lire(Image, char *);
 void ecrire(Image, char *);
-void ecrire_std(Image);
+void lecture_std(Image);
