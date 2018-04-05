@@ -60,14 +60,8 @@ void ecrire_std(Image img){
 	}
 
 }
-<<<<<<< HEAD:Application/src/lecture_fichier.c
+
 void lire(Image img, FILE * FileImage)
-=======
-
-
-
-void lire(Image img, char * fileName)
->>>>>>> 9368edec072ff7e96719828d71ba2be30d811352:Application/src/lecture_ecriture.c
 {
 	char z;
 	fscanf(FileImage, "%c%u\n", &z, &img->type);
@@ -114,7 +108,6 @@ void ecrire(Image img, char * nomFichier){
 	{
 		i++;
 	}
-	nomSortie[i] = 'p'; nomSortie[i+2] = 'm';
 	if (img->type == P2)
 		nomSortie[i+1] = 'g';
 	else if (img->type == P1) nomSortie[i+1] = 'b';
