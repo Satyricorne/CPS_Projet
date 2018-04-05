@@ -59,14 +59,8 @@ void lecture_std(Image img){
 
 }
 
-
-
-void lire(Image img, char * fileName)
+void lire(Image img, FILE * FileImage)
 {
-	printf("%s\n", fileName);
-	FILE * FileImage = fopen(fileName, "r");
-	printf("fichier extrait\n");
-
 	char z;
 	fscanf(FileImage, "%c%u\n", &z, &img->type);
 	printf("Type entrée : %s\n", type_print(img->type));
@@ -107,7 +101,6 @@ void ecrire(Image img, char * nomFichier){
 	{
 		i++;
 	}
-	nomSortie[i] = 'p'; nomSortie[i+2] = 'm';
 	if (img->type == P2)
 		nomSortie[i+1] = 'g';
 	else if (img->type == P1) nomSortie[i+1] = 'b';
