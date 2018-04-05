@@ -1,13 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../headers/main.h"
-#include "../headers/lecture_fichier.h"
+#include "main.h"
+#include "lecture_ecriture.h"
+#include "convert_fct.h"
 
 
-void transform(FILE * file, char * option){
+void transform(FILE * file, int optionG, int optionB){
 	Image img = malloc(sizeof(Image));
-	lire(img, file);
+	if(file == NULL){
+		ecrire_std(img);
+	}else{
+		lire(img, file);
+	}
 	Image sortie = malloc(sizeof(Image));
 	if (img->type == P3 && optionG){
 		sortie = gris(img, 0.299, 0.587, 0.114);
@@ -47,7 +52,7 @@ int main(int argc, char *argv[]) {
 	FILE * fichier;
 	argument(argc, argv, optionG, optionB, fichier);
 	if(argc != 3){
-	  printf("Problème d'argument vous devait saisir l'executable, l'option et le fichier à modifier");
+	  printf("Problème d'argument vous devez saisir l'executable, l'option et le fichier à modifier");
 	}else{
 	  transform(fichier, optionG, optionB);
 	}
