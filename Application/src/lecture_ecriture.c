@@ -3,8 +3,8 @@
 #include <stdint.h>
 #include <string.h>
 #include <math.h>
-
 #include "main.h"
+#include "couleur_fonction.h"
 
 char * type_print(Type t){
 	switch(t){
@@ -36,7 +36,7 @@ void afficher_bit(uint64_t a){
 
 }
 
-void ecrire_std(Image img){
+void lecture_std(Image img){
 	img->type = P3;
 	printf("Saisir la largeur : \n");
 	scanf("%i",&(img->largeur));
@@ -47,15 +47,13 @@ void ecrire_std(Image img){
 	printf("Saisir la valeur maximal : \n");
 	scanf("%i",&(img->val_max));
 
-	uint64_t a,b,c;
+	uint64_t r,g,b;
 
 	for (int i = 0; i < img->hauteur; ++i){
 		for (int j = 0; j < img->largeur; ++j){
 			printf("Pixel %d Ligne %d", j+1,i+1);
-			scanf("%lu %lu %lu",&a,&b,&c);
-			a = a << 32;
-			b = b << 16;
-			*(img->data+i*img->largeur+j) = a | b | c;
+			scanf("%lu %lu %lu",&r,&g,&b);
+			*(img->data+i*img->largeur+j) = creer_pixel(r,g,b);
 		}
 	}
 
@@ -80,22 +78,17 @@ void lire(Image img, char * fileName)
 	printf("Valeur max valide : %d\n", img->val_max);
 
 	img->data = malloc(sizeof(uint64_t)*img->largeur*img->hauteur);
-	uint64_t a, b, c, maska = 0xFFFF, maskb = 0xFFFF0000, maskc = 0xFFFF00000000;
+	uint64_t r, g, b;
 	for (int i = 0; i < img->hauteur; ++i)
 	{
 		for (int j = 0; j < img->largeur; ++j)
 		{
-			fscanf(FileImage, "%lu %lu %lu\t", &a, &b, &c);
-			a = a & maska;
-			b = b << 16;
-			b = b & maskb;
-			c = c << 32;
-			c = c & maskc;
-			*(img->data+i*img->largeur+j) = a+b+c;
+			fscanf(FileImage, "%lu %lu %lu\t", &r, &g, &b);
+			*(img->data+i*img->largeur+j) = creer_pixel(r,g,b);
 		}
 	}
-	printf("Data valide, premiere valeur : %lu %lu %lu ", (*(img->data))&maska, ((*(img->data))&maskb)>>16, ((*(img->data))&maskc)>>32);
-	printf("et derniere valeur : %lu %lu %lu\n", (*(img->data+img->largeur*img->hauteur))&maska, ((*(img->data+img->largeur*img->hauteur))&maskb)>>16, ((*(img->data+img->largeur*img->hauteur))&maskc)>>32);
+	printf("Data valide, premiere valeur : %lu %lu %lu ", (*(img->data))&MASKB, ((*(img->data))&MASKG)>>DECALG, ((*(img->data))&MASKR)>>DECALR);
+	printf("et derniere valeur : %lu %lu %lu\n", (*(img->data+img->largeur*img->hauteur))&MASKB, ((*(img->data+img->largeur*img->hauteur))&MASKG)>>DECALG, ((*(img->data+img->largeur*img->hauteur))&MASKR)>>DECALR);
 	//Affichage des DATA
 	/*for (int i = 0; i < img->hauteur; ++i)
 	{

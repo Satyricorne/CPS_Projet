@@ -10,7 +10,7 @@ void transform(char * file, char * option){
 
 	Image img = malloc(sizeof(Image));
 	if(file == NULL){
-		ecrire_std(img);
+		lecture_std(img);
 	}else{
 		lire(img, file);
 	}
