@@ -2,8 +2,4 @@
 
 void lire(Image, char *);
 void ecrire(Image, char *);
-
-Image gris(Image, float, float, float);
-Image noir(Image, float);
-
-
+void ecrire_std(Image);
